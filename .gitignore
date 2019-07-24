@@ -1,0 +1,6 @@
+# ignore config and node_modules.
+config.json
+node_modules
+
+# ignore IDE settings
+.idea/
