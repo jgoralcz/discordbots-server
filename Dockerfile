@@ -13,6 +13,7 @@ RUN npm install pm2 -g && npm install request --save && npm install
 COPY . .
 
 EXPOSE 8999
+EXPOSE 30001
 
 CMD ["pm2-runtime", "./src/server.js"]
 #CMD ["node", "index.js"]
