@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const { db } = require('./config.json');
+const { db, prefix } = require('../../config.json');
 
 const pool = new Pool(db);
 
@@ -38,7 +38,7 @@ const initializeGetUserInfo = async (userID) => {
   if (info != null && info.rowCount <= 0) {
     const startClientInfo = {
       userId: userID,
-      prefix: config.prefix
+      prefix: prefix
     };
 
     //set and then get the info

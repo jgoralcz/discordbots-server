@@ -2,16 +2,20 @@
   "name": "voting",
   "version": "1.0.0",
   "description": "records votes into db",
-  "main": "db.js",
+  "main": "src/db/db.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joshua Goralczyk <joshgor01@gmail.com> ()",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dblapi.js": "^2.3.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "pg": "^7.11.0"
+    "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
+    "pg": "^7.11.0",
+    "request-promise": "^4.2.4"
   }
 }
