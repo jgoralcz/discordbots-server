@@ -12,8 +12,7 @@ RUN npm install pm2 -g && npm install request --save && npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8999
-EXPOSE 30001
+EXPOSE 8999 30001
 
 CMD ["pm2-runtime", "./src/server.js"]
 #CMD ["node", "index.js"]

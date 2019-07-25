@@ -86,5 +86,5 @@ const setUserInfo = async (userInfo) => {
 
 module.exports = {
   updateUserBankPointsVote,
-  initializeGetUserInfo
+  initializeGetUserInfo,
 };
