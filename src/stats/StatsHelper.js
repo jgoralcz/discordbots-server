@@ -10,11 +10,11 @@ const postStats = async (req, res) => {
   try {
     const { servers, shardID, shardCount } = req.body;
     await discordBots.postStats(servers, shardID, shardCount);
-    res.send(200);
+    res.sendStatus(200);
   }
   catch(error) {
     console.error(error);
-    res.send(500);
+    res.sendStatus(500);
   }
 };
 

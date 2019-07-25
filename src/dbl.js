@@ -39,14 +39,18 @@ discordBots.webhook.on('vote', async vote => {
     // only care if they voted a long time so we can record it.
     if(streak > 20) {
       // send to our server so that they can send it back to us.
-      const request = await rp({
+      await rp({
         uri: home,
         method: 'POST',
-        body: {'userID': vote.user, 'streak': streak},
+        body: JSON.stringify({userID: vote.user, streak: streak, points: points}),
         auth: {
           'user': username,
           'pass': password
-        }
+        },
+        encoding: null,
+        headers: {
+          'Content-type': 'application/json'
+        },
       });
     }
     else {
