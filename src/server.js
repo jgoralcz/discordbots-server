@@ -1,7 +1,5 @@
 const app = require('./app');
-const config = require('../config.json');
-
-const { port } = config;
+const { port } = require('../config.json');
 
 app.listen(port, () => {
   /* eslint-disable no-console */

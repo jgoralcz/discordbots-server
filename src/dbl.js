@@ -1,7 +1,7 @@
 const dblapi = require('dblapi.js');
 const rp = require('request-promise');
 const db = require('./db/db');
-const { dbl, streakAmount, maxStreak, updateServer, updatePort } = require('../config.json');
+const { dbl, streakAmount, maxStreak, updateServer, updatePort, username, password } = require('../config.json');
 
 const home = `http://${updateServer}:${updatePort}/vote/`;
 const discordBots = new dblapi(dbl.token, { webhookPort: dbl.port, webhookAuth: dbl.pass });
@@ -20,7 +20,7 @@ discordBots.webhook.on('vote', async vote => {
     points = 4000;
   }
 
-  //get now time and add time to it
+  // give the users an extra 36 hours.
   let now = new Date();
   now.setHours(now.getHours() + 36);
   now = now.toLocaleString();
@@ -41,7 +41,12 @@ discordBots.webhook.on('vote', async vote => {
       // send to our server so that they can send it back to us.
       const request = await rp({
         uri: home,
+        method: 'POST',
         body: {'userID': vote.user, 'streak': streak},
+        auth: {
+          'user': username,
+          'pass': password
+        }
       });
     }
     else {
