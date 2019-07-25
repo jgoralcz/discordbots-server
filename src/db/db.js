@@ -33,8 +33,6 @@ const updateUserBankPointsVote = async (userID, points, vote_date, streak_vote_d
 const initializeGetUserInfo = async (userID) => {
   let info = await checkUserExists(userID).catch(console.error);
 
-  if(info == null) return null;
-
   if (info != null && info.rowCount <= 0) {
     const startClientInfo = {
       userId: userID,
@@ -56,7 +54,7 @@ const checkUserExists = async (userID) => {
   const client = await pool.connect();
   try {
     return await client.query(`
-      SELECT null
+      SELECT *
       FROM "clientsTable"
       WHERE "userId" = $1;
     `, [userID]);
