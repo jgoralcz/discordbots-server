@@ -19,9 +19,6 @@ new ScheduleJob('minute', '0 * * * * *', async () => {
   const now = new Date();
   const hours = now.getHours();
   const minutes = now.getMinutes();
-  console.log(minutes);
-
-  await resetRolls();
 
   // reset rolls for everyone
   if (minutes === 0) {
