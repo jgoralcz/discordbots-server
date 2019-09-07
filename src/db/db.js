@@ -24,7 +24,7 @@ const poolQuery = async (query, paramsArray) => {
  * @param points the user's bank points to update.
  * @returns {Promise<*>}
  */
-const updateUserBankPointsVote = async (userID, points) => pool.query(`
+const updateUserBankPointsVote = async (userID, points) => poolQuery(`
   UPDATE "clientsTable"
   SET "bankPoints" = "bankPoints" + $2, vote_date = NOW(), 
   streak_vote_date = NOW() + INTERVAL '2 days', vote_enabled = TRUE,
