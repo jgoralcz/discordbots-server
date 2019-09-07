@@ -4,6 +4,7 @@ const basicAuth = require('express-basic-auth');
 const statsController = require('./stats/StatsController');
 const { username, password } = require('../config.json');
 require('./dbl');
+require('./cron/MinuteTask');
 
 /**
  * app configuration for express.

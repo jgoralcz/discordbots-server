@@ -16,7 +16,7 @@ discordBots.webhook.on('vote', async vote => {
   let points = 3000;
 
   // is weekend, 4000 points
-  if(vote != null && vote.isWeekend) {
+  if(vote.isWeekend) {
     points = 4000;
   }
 
