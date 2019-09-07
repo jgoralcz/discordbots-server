@@ -1,4 +1,6 @@
-FROM node:12
+FROM node:12.10.0-stretch
+
+# docker kill discordbots-server && docker rm discordbots-server && docker run -d -p 8999:8999 -p 30001:30001 -e TZ=America/Montreal --name discordbots-server discordbots-server
 
 WORKDIR /usr/src/app
 
