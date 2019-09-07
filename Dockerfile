@@ -7,12 +7,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # install pm2 and our packages.
-RUN npm install pm2 -g && npm install request --save && npm install
+RUN npm install request --save && npm install
 
 # Bundle app source
 COPY . .
 
 EXPOSE 8999 30001
-
-CMD ["pm2-runtime", "./src/server.js"]
-#CMD ["node", "index.js"]
+CMD ["node", "index.js"]
