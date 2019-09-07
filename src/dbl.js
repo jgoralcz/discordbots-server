@@ -12,7 +12,7 @@ discordBots.webhook.on('ready', hook => {
 });
 
 discordBots.webhook.on('vote', async vote => {
-  let points = (vote.isWeekend) ? 400 : 3000;
+  let points = (vote.isWeekend) ? 4000 : 3000;
 
   try {
     // set up new member if needed
