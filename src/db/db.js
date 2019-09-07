@@ -22,16 +22,16 @@ const poolQuery = async (query, paramsArray) => {
  * updates a user when they vote.
  * @param userID the user's id.
  * @param points the user's bank points to update.
- * @param vote_date the date to add to the vote.
- * @param streak_vote_date the streak date to add
  * @returns {Promise<*>}
  */
-const updateUserBankPointsVote = async (userID, points, vote_date, streak_vote_date) => pool.query(`
+const updateUserBankPointsVote = async (userID, points) => pool.query(`
   UPDATE "clientsTable"
-  SET "bankPoints" = "bankPoints" + $2, vote_date = $3, streak_vote_date = $4, vote_enabled = TRUE, streak_vote = streak_vote + 1
+  SET "bankPoints" = "bankPoints" + $2, vote_date = NOW(), 
+  streak_vote_date = NOW() + INTERVAL '2 days', vote_enabled = TRUE,
+  streak_vote = streak_vote + 1
   WHERE "userId" = $1
   RETURNING *;
-`, [userID, points, vote_date, streak_vote_date]);
+`, [userID, points]);
 
 /**
  * stores a new user in the database.

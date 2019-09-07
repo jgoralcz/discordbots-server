@@ -12,29 +12,18 @@ discordBots.webhook.on('ready', hook => {
 });
 
 discordBots.webhook.on('vote', async vote => {
-  console.log(`User with ID ${vote.user} voted:`, new Date());
-  let points = 3000;
-
-  // is weekend, 4000 points
-  if(vote.isWeekend) {
-    points = 4000;
-  }
-
-  // give the users an extra 36 hours.
-  let now = new Date();
-  now.setHours(now.getHours() + 36);
-  now = now.toLocaleString();
+  let points = (vote.isWeekend) ? 400 : 3000;
 
   try {
     // set up new member if needed
     const userInfo = await db.initializeGetUserInfo(vote.user);
     const streak = (userInfo.streak_vote || 0) + 1;
 
-    // show the votes and points
-    (streak > 10) ? points += streakAmount * maxStreak : points += streakAmount * (streak - 1);
+    // show the votes and points, account for streaks.
+    points += (streak > 10) ? streakAmount * maxStreak : streakAmount * (streak - 1);
 
     // points info (streak included now)
-    await db.updateUserBankPointsVote(vote.user, points, new Date(), now);
+    await db.updateUserBankPointsVote(vote.user, points);
 
     // only care if they voted a long time so we can record it.
     if(streak > 20) {
@@ -56,7 +45,6 @@ discordBots.webhook.on('vote', async vote => {
     else {
       console.log(`${vote.user} has received ${points} points, reset their rolls, and is on a ${streak} day voting streak.`);
     }
-
   }
   catch(error) {
     console.error(error);
