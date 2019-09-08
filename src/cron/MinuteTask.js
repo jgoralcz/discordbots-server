@@ -6,21 +6,21 @@ const {
   resetClaimsPatronsTwo, resetRollsPatronsTwo,
   clearStreaks, clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
-  getNowDatabase,
 } = require('../db/db');
 
-new ScheduleJob('minute', '0 * * * * *', async () => {
+new ScheduleJob('minute', '* * * * * *', async () => {
   // refresh our materialized view
   // update leaderboard every minute,
   // it's like a 50ms query that rarely updates,
   // but there are also a lot of queries to handle.
   await refreshLeaderBoards().catch(console.error);
-  console.log(await getNowDatabase());
 
-  // update now
+  // get our date times.
   const now = new Date();
-  const hours = now.getHours();
+  console.log(now.getHours());
+  now.setHours(-3); // we want a similar time frame to America/Montreal
   const minutes = now.getMinutes();
+  const hours = now.getHours();
 
   // reset rolls for everyone
   if (minutes === 0) {
@@ -46,3 +46,21 @@ new ScheduleJob('minute', '0 * * * * *', async () => {
   await resetRollsPatronsTwo(minutes);
   await resetClaimsPatronsTwo(minutes);
 });
+
+
+// help from
+// https://stackoverflow.com/questions/15141762/how-to-initialize-a-javascript-date-to-a-particular-time-zone
+const changeTimezone = (date, ianatz) => {
+
+  // suppose the date is 12:00 UTC
+  const invdate = new Date(date.toLocaleString('en-US', {
+    timeZone: ianatz
+  }));
+
+  // then invdate will be 07:00 in Toronto
+  // and the diff is 5 hours
+  const diff = date.getTime()-invdate.getTime();
+
+  // so 12:00 in Toronto is 17:00 UTC
+  return new Date(date.getTime()+diff);
+};

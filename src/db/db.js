@@ -34,18 +34,6 @@ const updateUserBankPointsVote = async (userID, points) => poolQuery(`
 `, [userID, points]);
 
 /**
- * gets the now date from the database.
- * @returns {Promise<*>}
- */
-const getNowDatabase = async () => {
-  const query = await poolQuery(`
-    SELECT NOW() AS now;
-  `, []);
-
-  return query.rows[0].now;
-};
-
-/**
  * stores a new user in the database.
  * @param userID the user's id.
  * @returns {Promise<void>}
@@ -236,5 +224,4 @@ module.exports = {
   clearStreaks,
   clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
-  getNowDatabase,
 };
