@@ -8,7 +8,7 @@ const {
   updateClaimsRollsPatronsWaiting,
 } = require('../db/db');
 
-new ScheduleJob('minute', '* * * * * *', async () => {
+new ScheduleJob('minute', '0 * * * * *', async () => {
   // refresh our materialized view
   // update leaderboard every minute,
   // it's like a 50ms query that rarely updates,
@@ -17,7 +17,6 @@ new ScheduleJob('minute', '* * * * * *', async () => {
 
   // get our date times.
   const now = new Date();
-  console.log(now.getHours());
   now.setHours(-3); // we want a similar time frame to America/Montreal
   const minutes = now.getMinutes();
   const hours = now.getHours();
