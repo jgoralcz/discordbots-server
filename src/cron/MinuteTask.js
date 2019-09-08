@@ -6,6 +6,7 @@ const {
   resetClaimsPatronsTwo, resetRollsPatronsTwo,
   clearStreaks, clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
+  getNowDatabase,
 } = require('../db/db');
 
 new ScheduleJob('minute', '0 * * * * *', async () => {
@@ -14,6 +15,7 @@ new ScheduleJob('minute', '0 * * * * *', async () => {
   // it's like a 50ms query that rarely updates,
   // but there are also a lot of queries to handle.
   await refreshLeaderBoards().catch(console.error);
+  console.log(await getNowDatabase());
 
   // update now
   const now = new Date();
