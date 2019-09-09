@@ -17,7 +17,8 @@ new ScheduleJob('minute', '0 * * * * *', async () => {
 
   // get our date times.
   const now = new Date();
-  now.setHours(-3); // we want a similar time frame to America/Montreal
+  // now.setHours(now.getHours()); // we want a similar time frame to America/Montreal
+  console.log(now.getHours());
   const minutes = now.getMinutes();
   const hours = now.getHours();
 
