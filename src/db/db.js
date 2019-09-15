@@ -19,9 +19,32 @@ const poolQuery = async (query, paramsArray) => {
 };
 
 /**
- * updates a user when they vote.
- * @param userID the user's id.
- * @param points the user's bank points to update.
+ * check if the user exists.
+ * @param {BigInteger} userID the user's id.
+ * @returns {Promise<*>}
+ */
+const checkUserExists = async userID => poolQuery(`
+  SELECT *
+  FROM "clientsTable"
+  WHERE "userId" = $1;
+`, [userID]);
+
+/**
+ * sets the new user info
+ * @param {User} userInfo the user's info
+ * @returns {Promise<*>}
+ */
+const setUserInfo = async userInfo => poolQuery(`
+  INSERT INTO "clientsTable" ("userId", "prefix")
+  VALUES ($1, $2)
+  ON CONFLICT("userId") DO NOTHING
+  RETURNING *;
+`, [userInfo.userId, userInfo.prefix]);
+
+/**
+ * updates a user with points and date when they vote.
+ * @param {BigInteger} userID the user's id.
+ * @param {BigInteger} points the user's bank points to update.
  * @returns {Promise<*>}
  */
 const updateUserBankPointsVote = async (userID, points) => poolQuery(`
@@ -35,46 +58,23 @@ const updateUserBankPointsVote = async (userID, points) => poolQuery(`
 
 /**
  * stores a new user in the database.
- * @param userID the user's id.
+ * @param {BigInteger} userID the user's id.
  * @returns {Promise<void>}
  */
 const initializeGetUserInfo = async (userID) => {
-  let info = await checkUserExists(userID).catch(console.error);
+  let info = await checkUserExists(userID).catch(() => null);
 
   if (info != null && info.rowCount <= 0) {
     const startClientInfo = {
       userId: userID,
-      prefix: prefix
+      prefix,
     };
 
-    //set and then get the info
+    // set and then get the info
     info = await setUserInfo(startClientInfo);
   }
   return info.rows[0];
 };
-
-/**
- * check if the user exists.
- * @param userID the user's id.
- * @returns {Promise<*>}
- */
-const checkUserExists = async (userID) => poolQuery(`
-  SELECT *
-  FROM "clientsTable"
-  WHERE "userId" = $1;
-`, [userID]);
-
-/**
- * sets the new user info
- * @param userInfo the user's info
- * @returns {Promise<*>}
- */
-const setUserInfo = async (userInfo) => poolQuery(`
-  INSERT INTO "clientsTable" ("userId", "prefix")
-  VALUES ($1, $2)
-  ON CONFLICT("userId") DO NOTHING
-  RETURNING *;
-`, [userInfo.userId, userInfo.prefix]);
 
 /**
  * resets the rolls for everyone
@@ -129,10 +129,6 @@ const resetClaimsPatrons = async () => poolQuery(`
     );
 `, []);
 
-/**
- * refreshes everything
- * @returns {Promise<Promise<*>|*>}
- */
 const refreshLeaderBoards = async () => poolQuery(`
   BEGIN;
   REFRESH MATERIALIZED VIEW mv_top_buy_amiibo;
@@ -144,6 +140,7 @@ const refreshLeaderBoards = async () => poolQuery(`
 
 /**
  * resets the claims for patron level two
+ * @param {BigInteger} minute the minute to reset on.
  * @returns {Promise<void>}
  */
 const resetClaimsPatronsTwo = async minute => poolQuery(`
@@ -212,6 +209,31 @@ const updateClaimsRollsPatronsWaiting = async () => poolQuery(`
   WHERE wait_minutes > 0;
 `, []);
 
+/**
+ * resets withdraw, depsoity, and daily_gather
+ * @returns {Promise<void>}
+ */
+const resetAllClientDaily = async () => poolQuery(`
+  BEGIN;
+  
+  UPDATE "clientsTable"
+  SET game_points = 0
+  WHERE game_points > 0;
+  
+  UPDATE "clientsTable"
+  SET daily_gather = NULL
+  WHERE daily_gather IS NOT NULL;
+  
+  UPDATE "clientsGuildsTable"
+  SET daily = NULL
+  WHERE daily IS NOT NULL;
+  
+  UPDATE state
+  SET respects_paid_today = 0;
+  
+  COMMIT;
+`, []);
+
 module.exports = {
   updateUserBankPointsVote,
   initializeGetUserInfo,
@@ -224,4 +246,5 @@ module.exports = {
   clearStreaks,
   clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
+  resetAllClientDaily,
 };

@@ -7,15 +7,9 @@ const discordBots = require('../dbl');
  * @returns {Promise<void>}
  */
 const postStats = async (req, res) => {
-  try {
-    const { servers, shardID, shardCount } = req.body;
-    await discordBots.postStats(servers, shardID, shardCount);
-    res.sendStatus(200);
-  }
-  catch(error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
+  const { servers, shardID, shardCount } = req.body;
+  await discordBots.postStats(servers, shardID, shardCount);
+  res.sendStatus(200);
 };
 
 

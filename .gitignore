@@ -4,3 +4,6 @@ node_modules
 
 # ignore IDE settings
 .idea/
+
+# ignore vsc settings
+.vscode/

@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS "clientsTable" (
   achievement_aki BOOLEAN NOT NULL DEFAULT FALSE,
   achievement_reddit BOOLEAN NOT NULL DEFAULT FALSE,
   achievement_search_anime BOOLEAN NOT NULL DEFAULT FALSE
-`);
--- noinspection SqlNoDataSourceInspectionForFile
+);
+
 
 CREATE TABLE IF NOT EXISTS "guildsTable" (
   "guildId" varchar(32) PRIMARY KEY NOT NULL,
