@@ -13,7 +13,7 @@ app.post('/', async (req, res) => {
   }
 
   await discordBots.postStats(servers, shardID, shardCount);
-  return res.sendStatus(200);
+  return res.status(200).send({ servers, shardID, shardCount });
 });
 
 module.exports = app;

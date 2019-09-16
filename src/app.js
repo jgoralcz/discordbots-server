@@ -9,7 +9,7 @@ require('./dbl');
 require('./cron/MinuteTask');
 
 const logger = log4js.getLogger();
-logger.level = 'error';
+logger.level = 'info';
 
 const app = express();
 
