@@ -4,7 +4,7 @@ const basicAuth = require('express-basic-auth');
 const log4js = require('log4js');
 
 const routes = require('./routes/Routes');
-const { username, password } = require('../config.json');
+const { username, password, port } = require('../config.json');
 require('./dbl');
 require('./cron/MinuteTask');
 
@@ -27,11 +27,6 @@ const myAsyncAuthorizer = (user, pass, cb) => {
   return cb(null, false);
 };
 
-/**
- * no credentials.
- * @param req the user's request.
- * @returns {string}
- */
 const getUnauthorizedResponse = req => (req.auth
   ? (`{ "error": "Credentials ${req.auth.user}:${req.auth.password} rejected" }`)
   : '{ "error": "No credentials provided" }');
@@ -45,12 +40,21 @@ app.use(basicAuth({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(log4js.connectLogger(logger, {
+  level: 'info',
+  format: (req, res, format) => format(`:remote-addr - ${req.id} - ":method :url HTTP/:http-version" :status :content-length ":referrer" ":user-agent"`),
+}));
+
 app.use('/api', routes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   logger.error(err.stack);
-  res.status(500).send({ error: 'An error has occurred. Please contact my creator.' });
+  return res.status(500).send({ error: 'An error has occurred. Please contact my creator.' });
+});
+
+app.listen(port, () => {
+  logger.info(`Express server listening on port ${port}`);
 });
 
 module.exports = app;

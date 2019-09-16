@@ -1,8 +1,7 @@
-const router = require('express-promise-router');
-
-const statsHelper = require('./StatsHelper');
+const router = require('express-promise-router')();
+const stats = require('./Stats');
 
 // list of routes
-router.use('/stats', statsHelper);
+router.use('/stats', stats);
 
 module.exports = router;
