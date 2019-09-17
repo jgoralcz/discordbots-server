@@ -10,7 +10,8 @@ const {
   resetClaimsPatronsTwo, resetRollsPatronsTwo,
   clearStreaks, clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
-  resetAllClientDaily,
+  resetAllClientDaily, clearLastPlayed,
+  clearStaleQueue,
 } = require('../db/db');
 
 ScheduleJob('minute', '0 * * * * *', async () => {
@@ -51,5 +52,7 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   // reset all dailies for all users.
   if (hours / 12 === 1) {
     await resetAllClientDaily().catch(logger.error);
+    await clearLastPlayed().catch(logger.error);
+    await clearStaleQueue().catch(logger.error);
   }
 });

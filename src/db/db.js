@@ -234,6 +234,25 @@ const resetAllClientDaily = async () => poolQuery(`
   COMMIT;
 `, []);
 
+/**
+ * deletes the last played rows older than 30 days.
+ * @returns {Promise<*>}
+ */
+const clearLastPlayed = async () => poolQuery(`
+  DELETE FROM guild_lastplayed_queue
+  WHERE date_added < NOW() - INTERVAL '30 days';
+`, []);
+
+/**
+ * deletes the last played queue if it hasn't been used in 3 days.
+ * @returns {Promise<*>}
+ */
+const clearStaleQueue = async () => poolQuery(`
+  UPDATE "guildsTable"
+  SET "serverQueue" = '{}', seek = 0
+  WHERE queue_last_updated IS NOT NULL AND queue_last_updated < NOW() - INTERVAL '3 days';
+`, []);
+
 module.exports = {
   updateUserBankPointsVote,
   initializeGetUserInfo,
@@ -247,4 +266,6 @@ module.exports = {
   clearVoteStreaks,
   updateClaimsRollsPatronsWaiting,
   resetAllClientDaily,
+  clearLastPlayed,
+  clearStaleQueue,
 };

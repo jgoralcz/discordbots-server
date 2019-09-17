@@ -105,3 +105,11 @@ CREATE INDEX IF NOT EXISTS idx_rolls_waifu ON "clientsGuildsTable"(rolls_waifu);
 CREATE INDEX IF NOT EXISTS idx_total_friends ON "clientsGuildsTable"("totalFriends");
 CREATE INDEX IF NOT EXISTS idx_total_f ON "clientsGuildsTable"("totalMarriages");
 
+CREATE TABLE IF NOT EXISTS guild_lastplayed_queue (
+  guild_id varchar(32) NOT NULL REFERENCES "guildsTable"("guildId"),
+  track JSON NOT NULL,
+  date_added timestamp NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_last_played_date_added ON guild_lastplayed_queue(date_added);
+
+
