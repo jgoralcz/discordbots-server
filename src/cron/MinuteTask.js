@@ -19,7 +19,7 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   // update leaderboard every minute,
   // it's like a 50ms query that rarely updates,
   // but there are also a lot of queries to handle.
-  await refreshLeaderBoards().catch(logger.error);
+  await refreshLeaderBoards().catch(error => logger.error(error));
 
   // get our date times.
   const now = new Date();
@@ -27,32 +27,32 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   const hours = now.getHours();
 
   // check patron level 2 for the special cases.
-  await resetRollsPatronsTwo(minutes).catch(logger.error);
-  await resetClaimsPatronsTwo(minutes).catch(logger.error);
+  await resetRollsPatronsTwo(minutes).catch(error => logger.error(error));
+  await resetClaimsPatronsTwo(minutes).catch(error => logger.error(error));
 
   if (minutes !== 0) return;
 
-  await resetRolls().catch(logger.error);
+  await resetRolls().catch(error => logger.error(error));
   // clear streaks, more or less lenient every hour.
-  await clearStreaks().catch(logger.error);
-  await clearVoteStreaks().catch(logger.error);
+  await clearStreaks().catch(error => logger.error(error));
+  await clearVoteStreaks().catch(error => logger.error(error));
   // reset the patron level 2 minutes
-  await updateClaimsRollsPatronsWaiting().catch(logger.error);
+  await updateClaimsRollsPatronsWaiting().catch(error => logger.error(error));
 
   // third hour we reset claims for normal users.
   if (hours % 3 === 0) {
-    await resetClaimsPlebs().catch(logger.error);
+    await resetClaimsPlebs().catch(error => logger.error(error));
   }
 
   // second hour we reset claims for patrons.
   if (hours % 2 === 0) {
-    await resetClaimsPatrons().catch(logger.error);
+    await resetClaimsPatrons().catch(error => logger.error(error));
   }
 
   // reset all dailies for all users.
   if (hours / 12 === 1) {
-    await resetAllClientDaily().catch(logger.error);
-    await clearLastPlayed().catch(logger.error);
-    await clearStaleQueue().catch(logger.error);
+    await resetAllClientDaily().catch(error => logger.error(error));
+    await clearLastPlayed().catch(error => logger.error(error));
+    await clearStaleQueue().catch(error => logger.error(error));
   }
 });
