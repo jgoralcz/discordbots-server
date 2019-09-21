@@ -73,7 +73,10 @@ const initializeGetUserInfo = async (userID) => {
     // set and then get the info
     info = await setUserInfo(startClientInfo);
   }
-  return info.rows[0];
+  if (info && info.rows && info.rows[0]) {
+    return info.rows[0];
+  }
+  return null;
 };
 
 /**

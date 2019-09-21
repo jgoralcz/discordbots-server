@@ -24,7 +24,10 @@ discordBots.webhook.on('vote', async (vote) => {
 
   // set up new member if needed
   const userInfo = await db.initializeGetUserInfo(vote.user);
-  if (!userInfo) return;
+  if (!userInfo) {
+    logger.error(`User doesn't exist ${vote.user}`);
+    return;
+  }
 
   // show the votes and points, account for streaks.
   const streak = (userInfo.streak_vote || 0) + 1;
