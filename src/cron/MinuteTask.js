@@ -25,7 +25,6 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   const now = new Date();
   const minutes = now.getMinutes();
   const hours = now.getHours();
-  console.log('hours', hours);
 
   // check patron level 2 for the special cases.
   await resetRollsPatronsTwo(minutes).catch(error => logger.error(error));
@@ -51,7 +50,7 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   }
 
   // reset all dailies for all users.
-  if ((hours - 1) / 12 === 1) {
+  if (hours / 12 === 1) {
     logger.log('running daily reset...');
     await resetAllClientDaily().catch(error => logger.error(error));
     await clearLastPlayed().catch(error => logger.error(error));
