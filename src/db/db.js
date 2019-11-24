@@ -138,6 +138,7 @@ const refreshLeaderBoards = async () => poolQuery(`
   REFRESH MATERIALIZED VIEW mv_top_buy_waifu;
   REFRESH MATERIALIZED VIEW mv_top_claim_waifu;
   REFRESH MATERIALIZED VIEW mv_top_pokemon;
+  REFERSH MATERIALIZED VIEW mv_rank_claim_waifu;
   COMMIT;
 `, []);
 
