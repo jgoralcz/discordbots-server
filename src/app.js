@@ -1,60 +1,46 @@
+const fs = require('fs');
+const bodyparser = require('body-parser');
 const express = require('express');
-const bodyParser = require('body-parser');
-const basicAuth = require('express-basic-auth');
-const log4js = require('log4js');
+const logger = require('log4js').getLogger();
+const https = require('https');
+const hsts = require('hsts');
 
-const routes = require('./routes/Routes');
-const { username, password, port } = require('../config.json');
+const router = require('./routes/routes.js');
+
+const { basicAuth, authorizer, unauthResponse } = require('./middleware/basicAuth');
+const { errorHandler } = require('./middleware/errorhandler');
+const { httpLogger } = require('./middleware/logger');
+
+const { serverCert, serverKey } = require('./util/constants/paths');
+const { LOCAL, PROD, TEST } = require('./util/constants/environments');
+
 require('./dbl');
 require('./cron/MinuteTask');
 
-const logger = log4js.getLogger();
 logger.level = 'info';
+const port = 8443;
 
-const app = express();
+const env = process.env.NODE_ENV || LOCAL;
 
-/**
- * async authorizer to test for credientials
- * @param user the user name.
- * @param pass the user's password.
- * @param cb the callback.
- * @returns {*}
- */
-const myAsyncAuthorizer = (user, pass, cb) => {
-  if (user === username && pass === password) {
-    return cb(null, true);
-  }
-  return cb(null, false);
-};
+const server = express();
 
-const getUnauthorizedResponse = req => (req.auth
-  ? (`{ "error": "Credentials ${req.auth.user}:${req.auth.password} rejected" }`)
-  : '{ "error": "No credentials provided" }');
-
-app.use(basicAuth({
-  authorizer: myAsyncAuthorizer,
+server.use(basicAuth({
+  authorizer,
   authorizeAsync: true,
-  unauthorizedResponse: getUnauthorizedResponse,
+  unauthorizedResponse: unauthResponse,
 }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+server.use(hsts({ maxAge: 31536000 }));
+server.use(bodyparser.urlencoded({ extended: true }));
+server.use(bodyparser.json());
+server.use(httpLogger());
 
-app.use(log4js.connectLogger(logger, {
-  level: 'info',
-  format: (req, res, format) => format(`:remote-addr - ${req.id} - ":method :url HTTP/:http-version" :status :content-length ":referrer" ":user-agent"`),
-}));
+server.use('/', router, errorHandler);
 
-app.use('/api', routes);
+// if (env.toUpperCase() === PROD || env.toUpperCase() === TEST) {
+// const certificate = { key: fs.readFileSync(serverKey), cert: fs.readFileSync(serverCert) };
+// https.createServer(certificate, server).listen(port, () => logger.info(`${env.toUpperCase()} https server started on ${port}.`))
+// } else {
+server.listen(port, () => logger.info(`${env.toUpperCase()} server started on ${port}.`));
+// }
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  return res.status(500).send({ error: 'An error has occurred. Please contact my creator.' });
-});
-
-app.listen(port, () => {
-  logger.info(`Express server listening on port ${port}`);
-});
-
-module.exports = app;

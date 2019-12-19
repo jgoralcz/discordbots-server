@@ -1,7 +1,6 @@
 const router = require('express-promise-router')();
-const stats = require('./Stats');
+const stats = require('./stats');
 
-// list of routes
 router.use('/stats', stats);
 
 module.exports = router;

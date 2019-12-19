@@ -9,7 +9,7 @@ app.post('/', async (req, res) => {
 
   const { servers, shardID, shardCount } = body;
   if (servers == null || shardID == null || shardCount == null) {
-    return res.status(400).send({ error: 'Invalid data received.' });
+    return res.status(400).send({ error: `Invalid data received. Need [servers, shardID, shardCount], received: ${body}` });
   }
 
   await discordBots.postStats(servers, shardID, shardCount);
