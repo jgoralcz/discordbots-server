@@ -20,4 +20,4 @@ USER node
 RUN npm install request --save && npm install
 
 EXPOSE 8999 30001
-CMD ["node", "./src/app.js"]
+CMD ["npm", "start"]
