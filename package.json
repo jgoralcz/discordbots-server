@@ -4,7 +4,7 @@
   "description": "records votes into db",
   "main": "src/db/db.js",
   "scripts": {
-    "test": "mocha"
+    "start": "node src/server.js"
   },
   "author": "Joshua Goralczyk <joshgor01@gmail.com> ()",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "express-promise-router": "^3.0.3",
+    "hsts": "^2.2.0",
     "log4js": "^5.1.0",
     "mocha": "^6.2.0",
     "node-schedule": "^1.3.2",
