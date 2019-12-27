@@ -1,5 +1,5 @@
 FROM node
-# docker kill discordbots-server && docker rm discordbots-server && docker run -d -p 8999:8999 -p 30001:30001 -e TZ=America/Montreal --name discordbots-server discordbots-server
+# docker stop discordbots-server && docker rm discordbots-server && docker run -d -p 8999:8443 -p 30001:30001 -e TZ=America/Montreal --name discordbots-server discordbots-server
 
 LABEL owner = jgoralcz
 LABEL serviceVersion = 0.2.0
@@ -19,5 +19,5 @@ USER node
 
 RUN npm install request --save && npm install
 
-EXPOSE 8999 30001
+EXPOSE 8443 30001
 CMD ["npm", "start"]

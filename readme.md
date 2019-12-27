@@ -27,7 +27,6 @@ Additionally, a cron job is ran against the main api to reset needed data.
   "actual_username": "name",
   "port": 8999,
   "updateServer": "ip",
-  "updatePort": 8998,
   "voteChannel": "1234",
   "api": {
     "host": "localhost",
