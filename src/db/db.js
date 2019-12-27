@@ -48,7 +48,7 @@ const setUserInfo = async userInfo => poolQuery(`
  * @returns {Promise<*>}
  */
 const updateUserBankPointsVote = async (userID, points) => poolQuery(`
-  UPDATE "clientsTable"
+  UPDATE "clientsTable" 
   SET "bankPoints" = "bankPoints" + $2, vote_date = NOW(), 
   streak_vote_date = NOW() + INTERVAL '2 days', vote_enabled = TRUE,
   streak_vote = streak_vote + 1
