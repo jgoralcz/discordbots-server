@@ -164,11 +164,6 @@ const resetClaimsPatronsTwo = async minute => poolQuery(`
     );
 `, [minute]);
 
-/**
- * resets the patrons for patron level two
- * @param minute the minute to look for when updating
- * @returns {Promise<void>}
- */
 const resetRollsPatronsTwo = async minute => poolQuery(`
   UPDATE "clientsGuildsTable"
   SET rolls_waifu = 0
