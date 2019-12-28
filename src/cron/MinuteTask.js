@@ -38,7 +38,7 @@ ScheduleJob('minute', '0 * * * * *', async () => {
 
   // second hour we reset claims for patrons.
   if (hours % 2 === 0) {
-    await bongoBotAPI.patch('/claims/patron-/reset').catch(error => logger.error(error));
+    await bongoBotAPI.patch('/claims/patron-one/reset').catch(error => logger.error(error));
   }
 
   // reset all dailies for all users.
