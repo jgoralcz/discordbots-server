@@ -2,7 +2,7 @@ const axios = require('axios');
 const {
   messenger: {
     api: apiM,
-    usernameM, passwordM,
+    username: usernameM, password: passwordM,
   },
   bongo_bot_api: {
     api,
