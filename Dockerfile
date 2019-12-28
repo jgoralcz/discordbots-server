@@ -1,5 +1,5 @@
 FROM node
-# docker stop discordbots-server && docker rm discordbots-server && docker run -d -p 8999:8443 -p 30001:30001 -e TZ=America/Montreal --name discordbots-server discordbots-server
+# docker stop discordbots-server && docker rm discordbots-server && docker run -d -p 8999:8443 -p 30001:30001-v /etc/nginx/ssl/cert.key:/node/config/cert.key -v /etc/nginx/ssl/cert.pem:/node/config/cert.pem --restart always --memory="1024m" --cpu-shares=1024 -e TZ=America/Montreal --name discordbots-server discordbots-server
 
 LABEL owner = jgoralcz
 LABEL serviceVersion = 0.2.0

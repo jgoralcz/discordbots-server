@@ -1,23 +1,23 @@
 const axios = require('axios');
 const {
   messenger: {
-    hostM, portM,
+    api: apiM,
     usernameM, passwordM,
   },
   bongo_bot_api: {
-    host, port,
+    api,
     username, password,
   },
 } = require('../../config.json');
 
 const messengerAPI = axios.create({
-  baseURL: `http://${hostM}:${portM}`,
+  baseURL: apiM,
   auth: { usernameM, passwordM },
   headers: { 'Content-type': 'application/json' },
 });
 
 const bongoBotAPI = axios.create({
-  baseURL: `http://${host}:${port}`,
+  baseURL: api,
   auth: { username, password },
   headers: { 'Content-type': 'application/json' },
 });

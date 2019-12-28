@@ -19,7 +19,7 @@ discordBots.webhook.on('vote', async (vote) => {
 
   try {
     let { status, data } = await bongoBotAPI.get(`/users/${vote.user}`);
-    if (status !== 200 || !data || !data.user) {
+    if (status !== 200 || !data) {
       const result = await bongoBotAPI.post('/users', { id: vote.user });
       status = result.status;
       data = result.data;
