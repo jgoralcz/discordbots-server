@@ -12,7 +12,7 @@ const {
 
 const messengerAPI = axios.create({
   baseURL: apiM,
-  auth: { usernameM, passwordM },
+  auth: { username: usernameM, password: passwordM },
   headers: { 'Content-type': 'application/json' },
 });
 
