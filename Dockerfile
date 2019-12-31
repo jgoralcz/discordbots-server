@@ -17,7 +17,7 @@ WORKDIR /usr/src/node
 
 USER node
 
-RUN npm install request --save && npm install
+RUN npm install
 
 EXPOSE 8443 30001
 CMD ["npm", "start"]
