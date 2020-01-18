@@ -18,8 +18,8 @@ discordBots.webhook.on('vote', async (vote) => {
   let points = (vote.isWeekend) ? 4000 : 3000;
 
   try {
-    let { status, data } = await bongoBotAPI.get(`/users/${vote.user}`);
-    if (status !== 200 || !data) {
+    let { status, data } = await bongoBotAPI.get(`/users/${vote.user}`).catch(error => logger.error(error));
+    if (!status || status !== 200 || !data) {
       const result = await bongoBotAPI.post('/users', { id: vote.user });
       status = result.status;
       data = result.data;
