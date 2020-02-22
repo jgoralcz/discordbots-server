@@ -35,7 +35,7 @@ server.use(bodyparser.urlencoded({ extended: true }));
 server.use(bodyparser.json());
 server.use(httpLogger());
 
-server.use('/', router, errorHandler);
+server.use('/dbs', router, errorHandler);
 
 if (env.toUpperCase() === PROD || env.toUpperCase() === TEST) {
   const certificate = { key: fs.readFileSync(serverKey), cert: fs.readFileSync(serverCert) };
@@ -43,4 +43,3 @@ if (env.toUpperCase() === PROD || env.toUpperCase() === TEST) {
 } else {
   server.listen(port, () => logger.info(`${env.toUpperCase()} server started on ${port}.`));
 }
-

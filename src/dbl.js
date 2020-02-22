@@ -5,7 +5,6 @@ const logger = log4js.getLogger();
 logger.level = 'info';
 
 const { messengerAPI, bongoBotAPI } = require('./services/axios');
-
 const { dbl, streakAmount, maxStreak } = require('../config.json');
 
 const discordBots = new DBLAPI(dbl.token, { webhookPort: dbl.port, webhookAuth: dbl.pass });
