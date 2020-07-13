@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Memory Limit
         shell: bash
-        run: echo "##[set-output name=limit;]$([ "${GITHUB_REF##*/}" == "master" ] && echo "128" || echo "64Mi")"
+        run: echo "##[set-output name=limit;]$([ "${GITHUB_REF##*/}" == "master" ] && echo "256Mi" || echo "128Mi")"
         id: memory_limit
 
       - name: Build Memory Request
