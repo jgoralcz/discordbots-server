@@ -5,7 +5,7 @@ const logger = require('log4js').getLogger();
 const router = require('./routes/routes');
 
 const { basicAuth, authorizer, unauthResponse } = require('./middleware/basicAuth');
-const { errorHandler } = require('./middleware/errorHandler');
+const { errorHandler } = require('./middleware/errorhandler');
 const { httpLogger } = require('./middleware/logger');
 
 const { LOCAL } = require('./util/constants/environments');
