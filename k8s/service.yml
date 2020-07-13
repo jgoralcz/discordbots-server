@@ -7,7 +7,9 @@ spec:
   ports:
     - targetPort: ${PORT}
       port: 8443
+      name: http
     - targetPort: ${WEBHOOK_PORT}
       port: 30001
+      name: webhook
   selector:
     app: ${SERVICE_NAME}
