@@ -1,24 +1,31 @@
 const axios = require('axios');
+const { api, config } = require('../util/constants/paths');
+
 const {
   messenger: {
-    api: apiM,
-    username: usernameM, password: passwordM,
+    username: usernameM,
+    password: passwordM,
   },
   bongo_bot_api: {
-    api,
-    username, password,
+    username: usernameB,
+    password: passwordB,
   },
-} = require('../../config.json');
+} = require(api);
+
+const {
+  messenger_api: messengerURL,
+  bongo_bot_api: bongoBotURL,
+} = require(config);
 
 const messengerAPI = axios.create({
-  baseURL: apiM,
+  baseURL: messengerURL,
   auth: { username: usernameM, password: passwordM },
   headers: { 'Content-type': 'application/json' },
 });
 
 const bongoBotAPI = axios.create({
-  baseURL: api,
-  auth: { username, password },
+  baseURL: bongoBotURL,
+  auth: { username: usernameB, password: passwordB },
   headers: { 'Content-type': 'application/json' },
 });
 

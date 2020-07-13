@@ -5,9 +5,13 @@ const logger = log4js.getLogger();
 logger.level = 'info';
 
 const { messengerAPI, bongoBotAPI } = require('./services/axios');
-const { dbl, streakAmount, maxStreak } = require('../config.json');
+const { api, config } = require('./util/constants/paths');
 
-const discordBots = new DBLAPI(dbl.token, { webhookPort: dbl.port, webhookAuth: dbl.pass });
+const { streakAmount, maxStreak } = require(config);
+const { dbl } = require(api);
+
+const webhookPort = process.env.WEBHOOK_PORT || 30001;
+const discordBots = new DBLAPI(dbl.token, { webhookPort, webhookAuth: dbl.pass });
 
 discordBots.webhook.on('ready', (hook) => {
   logger.info(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
@@ -17,11 +21,11 @@ discordBots.webhook.on('vote', async (vote) => {
   let points = (vote.isWeekend) ? 4000 : 3000;
 
   try {
-    let { status, data } = await bongoBotAPI.get(`/users/${vote.user}`).catch(error => logger.error(error));
-    if (!status || status !== 200 || !data) {
-      const result = await bongoBotAPI.post('/users', { id: vote.user });
-      status = result.status;
-      data = result.data;
+    let { status, data } = await bongoBotAPI.get(`/users/${vote.user}`);
+    if (status !== 200 || !data || !data.user) {
+      const { status: userStatus, data: userData } = await bongoBotAPI.post('/users', { id: vote.user });
+      status = userStatus;
+      data = userData;
     }
 
     const streak = (data.streak_vote || 0) + 1;
