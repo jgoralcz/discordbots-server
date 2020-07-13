@@ -1,5 +1,5 @@
 const logger = require('log4js').getLogger();
-const { PROD } = require('../util/constants/environments');
+const { LOCAL } = require('../util/constants/environments');
 
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
@@ -8,17 +8,17 @@ const errorHandler = (err, req, res, next) => {
 
   logger.error(err);
 
-  const error = (process.env.NODE_ENV === PROD) ? {
+  const error = (process.env.NODE_ENV === LOCAL) ? {
     error: {
       name: err.name,
+      stack: err.stack,
+      message: err.message,
       code: err.code,
     },
   }
     : {
       error: {
         name: err.name,
-        stack: err.stack,
-        message: err.message,
         code: err.code,
       },
     };

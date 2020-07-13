@@ -1,6 +1,9 @@
 # ignore config and node_modules.
 config.json
+api.json
+auth.json
 node_modules
+logs/
 
 # ignore IDE settings
 .idea/
