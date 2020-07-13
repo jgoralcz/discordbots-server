@@ -38,7 +38,7 @@ discordBots.webhook.on('vote', async (vote) => {
       return;
     }
 
-    await messengerAPI.post('/', { userID: vote.user, streak, points });
+    await messengerAPI.post('/votes', { userID: vote.user, streak, points });
   } catch (error) {
     logger.error(error);
   }
