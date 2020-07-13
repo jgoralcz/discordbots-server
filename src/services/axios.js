@@ -2,7 +2,7 @@ const axios = require('axios');
 const { api, config } = require('../util/constants/paths');
 
 const {
-  messenger: {
+  messenger_api: {
     username: usernameM,
     password: passwordM,
   },
