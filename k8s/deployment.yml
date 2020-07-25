@@ -26,6 +26,8 @@ spec:
               value: "${WEBHOOK_PORT}"
             - name: NODE_ENV
               value: "${ENV}"
+            - name: TZ
+              value: America/Montreal
           resources:
             limits:
               cpu: ${CPU_LIMIT}
