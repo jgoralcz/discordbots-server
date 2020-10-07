@@ -11,7 +11,7 @@ ScheduleJob('minute', '0 * * * * *', async () => {
   const minute = now.getMinutes();
   const hour = now.getHours();
 
-  await bongoBotAPI.delete('/guilds/rolls/minute').catch(error => logger.error(error));
+  await bongoBotAPI.delete('/refresh/guilds/rolls/minute').catch(error => logger.error(error));
   await bongoBotAPI.put('/refresh/count/minute').catch(error => logger.error(error));
   await bongoBotAPI.patch('/rolls/reset', { minute }).catch(error => logger.error(error));
   await bongoBotAPI.patch('/claims/reset', { hour, minute }).catch(error => logger.error(error));
