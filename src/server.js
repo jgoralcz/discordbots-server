@@ -10,9 +10,6 @@ const { httpLogger } = require('./middleware/logger');
 
 const { LOCAL } = require('./util/constants/environments');
 
-require('./dbl');
-require('./cron/MinuteTask');
-
 logger.level = 'info';
 const port = 8443;
 

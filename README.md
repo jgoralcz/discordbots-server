@@ -1,6 +1,5 @@
 # Overview
-A Node.js microservice to account for user voting and updating the guild count to discord bots. \
-Additionally, a cron job is ran against the main api to reset needed data.
+A Node.js microservice to account for user voting and updating the guild count to discord bots.
 
 # Stack (Node)
 1. express
@@ -36,4 +35,4 @@ Additionally, a cron job is ran against the main api to reset needed data.
   },
 }
 ```
-2. Run the dockerfile or `node src/server.js`
+2. Run the Dockerfile or `node src/server.js`

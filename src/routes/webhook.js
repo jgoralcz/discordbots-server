@@ -1,23 +1,19 @@
-const DBLAPI = require('dblapi.js');
+const route = require('express-promise-router')();
+const { Webhook } = require(`@top-gg/sdk`);
 const log4js = require('log4js');
+
+const { messengerAPI, bongoBotAPI } = require('./services/axios');
+const { api, config } = require('./util/constants/paths');
+const { streakAmount, maxStreak } = require(config);
+const { dbl } = require(api);
 
 const logger = log4js.getLogger();
 logger.level = 'info';
 
-const { messengerAPI, bongoBotAPI } = require('./services/axios');
-const { api, config } = require('./util/constants/paths');
+const wh = new Webhook(dbl.pass);
 
-const { streakAmount, maxStreak } = require(config);
-const { dbl } = require(api);
-
-const webhookPort = process.env.WEBHOOK_PORT || 30001;
-const discordBots = new DBLAPI(dbl.token, { webhookPort, webhookAuth: dbl.pass });
-
-discordBots.webhook.on('ready', (hook) => {
-  logger.info(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
-});
-
-discordBots.webhook.on('vote', async (vote) => {
+route.post('/', wh.listener(vote => {
+  console.log('vote', vote);
   let points = (vote.isWeekend) ? 4000 : 3000;
 
   try {
@@ -34,7 +30,7 @@ discordBots.webhook.on('vote', async (vote) => {
     await bongoBotAPI.patch(`/users/${vote.user}/points`, { points });
 
     if (streak < 20) {
-      logger.info(`${vote.user} has received ${points} points, reset their rolls, and is on a ${streak} day voting streak.`);
+      logger.info(`${vote.user} has received ${points} points, added roles, and is on a ${streak} day voting streak.`);
       return;
     }
 
@@ -42,6 +38,6 @@ discordBots.webhook.on('vote', async (vote) => {
   } catch (error) {
     logger.error(error);
   }
-});
+}));
 
-module.exports = discordBots;
+module.exports = route;
