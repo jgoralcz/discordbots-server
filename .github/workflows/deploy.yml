@@ -77,7 +77,6 @@ jobs:
           IMAGE_LOCATION: docker.pkg.github.com/jgoralcz/${{ steps.extract_repo.outputs.repo }}/${{ steps.extract_repo.outputs.repo }}:${{ steps.extract_environment.outputs.env }}
           SERVICE_NAME: ${{ steps.extract_prefix.outputs.prefix }}${{ steps.extract_service.outputs.service }}
           PORT: 8443
-          WEBHOOK_PORT: 30001
           PREFIX: ${{ steps.extract_prefix.outputs.prefix }}
           HOST_URL: ${{ steps.extract_prefix.outputs.prefix }}${{ secrets.HOST_URL }}
           CPU_LIMIT: ${{ steps.cpu_limit.outputs.limit }}
