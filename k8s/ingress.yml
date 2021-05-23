@@ -10,10 +10,6 @@ spec:
     - host: ${HOST_URL}
       http:
         paths:
-          - path: /dblwebhook
-            backend:
-              serviceName: ${SERVICE_NAME}
-              servicePort: ${WEBHOOK_PORT}
           - path: /
             backend:
               serviceName: ${SERVICE_NAME}
