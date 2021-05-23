@@ -2,8 +2,8 @@ const route = require('express-promise-router')();
 const { Webhook } = require(`@top-gg/sdk`);
 const log4js = require('log4js');
 
-const { messengerAPI, bongoBotAPI } = require('./services/axios');
-const { api, config } = require('./util/constants/paths');
+const { messengerAPI, bongoBotAPI } = require('../services/axios');
+const { api, config } = require('../util/constants/paths');
 const { streakAmount, maxStreak } = require(config);
 const { dbl } = require(api);
 

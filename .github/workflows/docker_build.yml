@@ -16,13 +16,6 @@ jobs:
         shell: bash
         run: echo "##[set-output name=repo;]$(echo ${GITHUB_REPOSITORY##*/})"
         id: extract_repo
-
-      - name: Build Host URL
-        shell: bash
-        run: echo "##[set-output name=url;]$([ "${GITHUB_REF##*/}" == "master" ] && echo ${{ secrets.HOST_URL }} || echo "beta-${{ secrets.HOST_URL }}")"
-        id: extract_host_url
-        
-        
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -44,5 +37,4 @@ jobs:
         with:
           context: .
           push: true
-          repository: ${{ secrets.DOCKER_USERNAME }}/${{ steps.extract_repo.outputs.repo }}
-          tags: ${{ steps.extract_environment.outputs.env }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.extract_repo.outputs.repo }}:${{ steps.extract_environment.outputs.env }}:latest
