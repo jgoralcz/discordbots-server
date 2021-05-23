@@ -37,4 +37,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.extract_repo.outputs.repo }}:${{ steps.extract_environment.outputs.env }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ steps.extract_repo.outputs.repo }}:${{ steps.extract_environment.outputs.env }}
