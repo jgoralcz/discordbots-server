@@ -12,7 +12,7 @@ logger.level = 'info';
 
 const wh = new Webhook(dbl.pass);
 
-route.post('/', wh.listener(vote => {
+route.post('/', wh.listener(async (vote) => {
   console.log('vote', vote);
   let points = (vote.isWeekend) ? 4000 : 3000;
 

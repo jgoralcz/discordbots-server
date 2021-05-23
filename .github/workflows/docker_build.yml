@@ -6,20 +6,21 @@ jobs:
   docker_build:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Extract environment
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Extract environment
         shell: bash
         run: echo "##[set-output name=env;]$([ "${GITHUB_REF##*/}" == "master" ] && echo "prod" || echo "beta")"
         id: extract_environment
-      - 
-        name: Extract Repo Name
+        
+      - uses: actions/checkout@v2
+      - name: Extract Repo Name
         uses: actions/checkout@v2
         shell: bash
         run: echo "##[set-output name=repo;]$(echo ${GITHUB_REPOSITORY##*/})"
         id: extract_repo  
-      - 
-        name: Build Host URL
+        
+      - uses: actions/checkout@v2
+      - name: Build Host URL
         uses: actions/checkout@v2
         shell: bash
         run: echo "##[set-output name=url;]$([ "${GITHUB_REF##*/}" == "master" ] && echo ${{ secrets.HOST_URL }} || echo "beta-${{ secrets.HOST_URL }}")"
