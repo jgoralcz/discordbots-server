@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "express-promise-router": "^4.1.0",
-    "log4js": "^6.3.0"
+    "log4js": "^6.4.0"
   },
   "devDependencies": {
     "eslint": "^7.26.0",
